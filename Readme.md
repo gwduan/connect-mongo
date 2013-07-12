@@ -1,6 +1,6 @@
 # connect-mongo
 
-  MongoDB session store for Connect
+  MongoDB session store for Connect/Express, with ReplicaSets and Mongos support.
 
   [![Build Status](https://secure.travis-ci.org/kcbanner/connect-mongo.png?branch=master)](http://travis-ci.org/kcbanner/connect-mongo)
 
@@ -53,6 +53,66 @@ With connect:
 
     var connect = require('connect');
     var MongoStore = require('connect-mongo')(connect);
+
+## Replica Sets example
+
+With express:
+
+    var express = require('express');
+    var MongoStore = require('connect-mongo')(express);
+
+    app.use(express.session({
+        secret: settings.cookie_secret,
+        store: new MongoStore({
+          db: {
+            name: settings.db.name,
+            servers: settings.db.servers,
+            rsOptions: settings.db.rsOptions,
+          }
+        })
+    }));
+
+Settings example:
+  
+    db: {
+      name: 'cms',
+      servers: [
+        {host: '192.168.0.61', port: 27017, serverOptions: {auto_reconnect:true}},
+        {host: '192.168.0.62', port: 27017, serverOptions: {auto_reconnect:true}},
+        {host: '192.168.0.63', port: 27017, serverOptions: {auto_reconnect:true}},
+      ],
+      rsOptions: {rs_name: 'rs0'},
+    }
+
+## Mongos example
+
+With express:
+
+    var express = require('express');
+    var MongoStore = require('connect-mongo')(express);
+
+    app.use(express.session({
+        secret: settings.cookie_secret,
+        store: new MongoStore({
+          db: {
+            name: settings.db.name,
+            servers: settings.db.servers,
+            msOptions: settings.db.msOptions,
+          }
+        })
+    }));
+
+Settings example:
+  
+    db: {
+      name: 'cms',
+      servers: [
+        {host: '192.168.0.71', port: 27017, serverOptions: {auto_reconnect:true}},
+        {host: '192.168.0.72', port: 27017, serverOptions: {auto_reconnect:true}},
+        {host: '192.168.0.73', port: 27017, serverOptions: {auto_reconnect:true}},
+      ],
+      msOptions: {haInterval: 5000},
+    }
 
 ## Removing expired sessions
 
