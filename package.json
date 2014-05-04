@@ -1,6 +1,6 @@
 {
   "name": "connect-mongo",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "MongoDB session store for Connect/Express, with ReplicaSets and Mongos support",
   "keywords": ["connect", "mongo", "mongodb", "session", "express", "replica sets", "mongos"],
   "author": "Casey Banner <kcbanner@gmail.com>",
